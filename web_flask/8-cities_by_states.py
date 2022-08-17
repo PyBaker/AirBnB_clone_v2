@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 """
-starts a Flask web application
+starts flash web application
 """
 
 from flask import Flask, render_template

@@ -1,17 +1,14 @@
 #!/usr/bin/python3
 """
-Contains the TestCityDocs classes
-"""
+has the test_city classes
+ """
 
-from datetime import datetime
-import inspect
-import models
-from models import city
-from models.base_model import BaseModel
+from tests.test_models.test_base_model import test_basemodel
+from models.city import City
 import pep8
 import unittest
-City = city.City
-
+import inspect
+from datetime import datetime
 
 class TestCityDocs(unittest.TestCase):
     """Tests to check the documentation and style of City class"""
@@ -40,7 +37,7 @@ class TestCityDocs(unittest.TestCase):
                          "city.py needs a docstring")
         self.assertTrue(len(city.__doc__) >= 1,
                         "city.py needs a docstring")
-
+    
     def test_city_class_docstring(self):
         """Test for the City class docstring"""
         self.assertIsNot(City.__doc__, None,
@@ -56,59 +53,39 @@ class TestCityDocs(unittest.TestCase):
             self.assertTrue(len(func[1].__doc__) >= 1,
                             "{:s} method needs a docstring".format(func[0]))
 
+class test_City(unittest.TestCase):
+    """
+    tests city class
+    """
 
-class TestCity(unittest.TestCase):
-    """Test the City class"""
-    def test_is_subclass(self):
-        """Test that City is a subclass of BaseModel"""
+    def test_subclass(self):
+        """
+        tests city is a subclass of basemodel
+         """
         city = City()
-        self.assertIsInstance(city, BaseModel)
-        self.assertTrue(hasattr(city, "id"))
-        self.assertTrue(hasattr(city, "created_at"))
-        self.assertTrue(hasattr(city, "updated_at"))
+        self.assertIsInstance(City, BaseModel)
+        self.assertTrue(hasattr(city, "id")
+        self.assertTrue(hasattr(city, "created_at")
+        self.assertTrue(hasattr(city, "updated_at)
 
-    def test_name_attr(self):
-        """Test that City has attribute name, and it's an empty string"""
+    def test_state_id(self):
+        """
+        tests that the city has a state attribute
+        """
+        city = city()
+        self.assertEqual(hasattr(city, "state_id"))
+        if models.storage_t == 'db':
+          self.assertEqual(city.state_id, None)
+        else
+          self.assertEqual(city.state_id, "")
+
+    def test_name(self):
+        """
+        tests that a city has an attribute name
+        """
         city = City()
         self.assertTrue(hasattr(city, "name"))
         if models.storage_t == 'db':
-            self.assertEqual(city.name, None)
-        else:
-            self.assertEqual(city.name, "")
-
-    def test_state_id_attr(self):
-        """Test that City has attribute state_id, and it's an empty string"""
-        city = City()
-        self.assertTrue(hasattr(city, "state_id"))
-        if models.storage_t == 'db':
-            self.assertEqual(city.state_id, None)
-        else:
-            self.assertEqual(city.state_id, "")
-
-    def test_to_dict_creates_dict(self):
-        """test to_dict method creates a dictionary with proper attrs"""
-        c = City()
-        new_d = c.to_dict()
-        self.assertEqual(type(new_d), dict)
-        self.assertFalse("_sa_instance_state" in new_d)
-        for attr in c.__dict__:
-            if attr is not "_sa_instance_state":
-                self.assertTrue(attr in new_d)
-        self.assertTrue("__class__" in new_d)
-
-    def test_to_dict_values(self):
-        """test that values in dict returned from to_dict are correct"""
-        t_format = "%Y-%m-%dT%H:%M:%S.%f"
-        c = City()
-        new_d = c.to_dict()
-        self.assertEqual(new_d["__class__"], "City")
-        self.assertEqual(type(new_d["created_at"]), str)
-        self.assertEqual(type(new_d["updated_at"]), str)
-        self.assertEqual(new_d["created_at"], c.created_at.strftime(t_format))
-        self.assertEqual(new_d["updated_at"], c.updated_at.strftime(t_format))
-
-    def test_str(self):
-        """test that the str method has the correct output"""
-        city = City()
-        string = "[City] ({}) {}".format(city.id, city.__dict__)
-        self.assertEqual(string, str(city))
+          self.assertEqual(city.name, None)
+        else
+          self.assertEqual(city.name, "")

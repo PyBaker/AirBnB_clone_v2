@@ -1,5 +1,6 @@
-#!/usr/bin/python
-""" holds class Review"""
+#!/usr/bin/python3
+""" Review module for the HBNB project """
+
 import models
 from models.base_model import BaseModel, Base
 from os import getenv
@@ -19,6 +20,6 @@ class Review(BaseModel, Base):
         user_id = ""
         text = ""
 
-    def __init__(self, *args, **kwargs):
+def __init__(self, *args, **kwargs):
         """initializes Review"""
         super().__init__(*args, **kwargs)

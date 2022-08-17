@@ -1,14 +1,13 @@
 #!/usr/bin/python3
 """
-Contains the class TestConsoleDocs
+has the class TestConsoleDocs
 """
 
-import console
-import inspect
 import pep8
 import unittest
-HBNBCommand = console.HBNBCommand
-
+import console
+import inspect
+HBNBMCommand = console.HBNBMCommand
 
 class TestConsoleDocs(unittest.TestCase):
     """Class for testing documentation of the console"""
@@ -25,7 +24,7 @@ class TestConsoleDocs(unittest.TestCase):
         result = pep8s.check_files(['tests/test_console.py'])
         self.assertEqual(result.total_errors, 0,
                          "Found code style errors (and warnings).")
-
+ 
     def test_console_module_docstring(self):
         """Test for the console.py module docstring"""
         self.assertIsNot(console.__doc__, None,
@@ -39,3 +38,4 @@ class TestConsoleDocs(unittest.TestCase):
                          "HBNBCommand class needs a docstring")
         self.assertTrue(len(HBNBCommand.__doc__) >= 1,
                         "HBNBCommand class needs a docstring")
+

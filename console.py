@@ -115,16 +115,36 @@ class HBNBCommand(cmd.Cmd):
 
     def do_create(self, args):
         """ Create an object of any class"""
+        args_list = args.split()
+
         if not args:
             print("** class name missing **")
             return
-        elif args not in HBNBCommand.classes:
+        elif args_list[0] not in HBNBCommand.classes:
             print("** class doesn't exist **")
             return
-        new_instance = HBNBCommand.classes[args]()
-        storage.save()
+
+        new_instance = HBNBCommand.classes[args_list[0]]()
+        for i in range(1, len(args_list)):
+            # Separate the key and value into a tuple
+            attrs = args_list[i].partition("=")
+            key = attrs[0]
+            value = attrs[2]
+            # Parse the values
+            if '\"' in value:
+                value = value[1:-1]
+                value = value.replace("_", " ")
+            elif '.' in value:
+                value = float(value)
+            else:
+                value = int(value)
+
+            # Check if instance has that attribute before adding
+            if hasattr(new_instance, key):
+                setattr(new_instance, key, value)
+
+        new_instance.save()
         print(new_instance.id)
-        storage.save()
 
     def help_create(self):
         """ Help information for the create method """
@@ -155,7 +175,7 @@ class HBNBCommand(cmd.Cmd):
 
         key = c_name + "." + c_id
         try:
-            print(storage._FileStorage__objects[key])
+            print(storage.all()[key])
         except KeyError:
             print("** no instance found **")
 
@@ -206,14 +226,14 @@ class HBNBCommand(cmd.Cmd):
             if args not in HBNBCommand.classes:
                 print("** class doesn't exist **")
                 return
-            for k, v in storage._FileStorage__objects.items():
+            for k, v in storage.all(args).items():
                 if k.split('.')[0] == args:
                     print_list.append(str(v))
         else:
-            for k, v in storage._FileStorage__objects.items():
+            for k, v in storage.all().items():
                 print_list.append(str(v))
 
-        print(print_list)
+        print(*print_list)
 
     def help_all(self):
         """ Help information for the all command """
